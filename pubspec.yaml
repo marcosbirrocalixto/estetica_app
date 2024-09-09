@@ -1,0 +1,66 @@
+name: esteticaautomotiva
+description: "Detlhe Estética Automotiva Flutter"
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 2.0.0+1
+
+environment:
+  sdk: ^3.5.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  form_builder_validators: ^11.0.0
+  url_launcher: ^6.3.0
+  flutter_plugin_openwhatsapp: ^0.0.2
+  mask_text_input_formatter: ^2.9.0
+  curved_navigation_bar: ^1.0.6
+  flutter_rating_bar: ^4.0.1
+  http_parser: ^4.0.2
+  brasil_datetime: ^0.3.2
+  dio: ^5.7.0
+  mobx: ^2.3.3+2
+  flutter_mobx: ^2.2.1+1
+
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  build_runner: ^2.4.12
+  mobx_codegen: ^2.6.1
+
+  flutter_launcher_icons: ^0.13.1 
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/icon.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/icon/icon.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "assets/icon/icon.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/icon/icon.png"
+
+flutter_icons:
+  android: "ic_launcher"
+  ios: true
+  image_path: "assets/icon/icon.png"
+
+  flutter_lints: ^4.0.0
+
+flutter:
+
+  uses-material-design: true
+  assets:
+    - assets/images/logo.png
+    - assets/images/splash.png
+    - assets/icon/logo.ico
