@@ -5,12 +5,14 @@ class OrdemRepository {
   var _httpClient;
 
   OrdemRepository() {
-    _httpClient = new DioClient();
+    _httpClient = DioClient();
   }
 
-  Future<List<OrdemModel>> getOrdens() async {
-    final response = await _httpClient.get('/ordem/pegarOrdens/RME4J27');
-    final _ordens = (response.data as List).map((ordem) {
+  Future<List<OrdemModel>> getOrdens(dynamic placa) async {
+    final response = await _httpClient
+        .get('/ordem/pegarOrdens/$placa');
+    print(response);
+    final _ordens = (response as List).map((ordem) {
       //(response.data as List).map((ordem) => OrdemModel.fromJson(ordem).toList();
       //_ordens.add(OrdemModel.fromJson(ordem));
       //print("-------------------------------------");

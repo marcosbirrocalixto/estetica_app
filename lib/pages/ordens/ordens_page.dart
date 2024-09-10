@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:esteticaautomotiva/data/api/dio_client.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/ordem_model.dart';
@@ -24,25 +27,23 @@ class _OrdemPageState extends State<OrdemPage> {
 
   @override
   void initState() {
-    //placa = widget.placa;
+    placa = widget.placa;
 
     super.initState();
     //initializeDateFormatting('pt_BR', DateFormat.DAY);
 
-    getOrdens();
+    getOrdens(placa.toString());
   }
-
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(widget.placa),
-            Text(' - Ordens de Serviços'),            
+            Text(' - Ordens de Serviços'),
           ],
         ),
         //title: const Text('Ordens de Serviços'),
@@ -128,15 +129,18 @@ class _OrdemPageState extends State<OrdemPage> {
     );
   }
 
-  void getOrdens() async {
+  void getOrdens(placa) async {
     setState(() => isLoading = true);
+    print("vai entrar getordens $placa");
 
-    final ordens = await OrdemRepository().getOrdens();
+    //final ordens = await DioClient().get('/ordem/pegarOrdens/$placa');
+
+    final ordens = await OrdemRepository().getOrdens(placa);
 
     setState(() {
       _ordens.addAll(ordens);
     });
-
+    print("saiu getordens $placa");
     setState(() => isLoading = false);
   }
 }

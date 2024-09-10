@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:esteticaautomotiva/models/ordem_model.dart';
 
 import '../../data/api/interceptors/dio_interceptor.dart';
 
@@ -14,7 +15,7 @@ class DioClient {
       final Response response = await _dio.get(url);
       print(response);
 
-      return response;
+      return response.data;
     } catch (e) {
       print(e.toString());
       throw e;
