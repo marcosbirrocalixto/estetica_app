@@ -25,6 +25,22 @@ mixin _$ServicesStore on _ServicesStoreBase, Store {
     });
   }
 
+  late final _$isLoadingAtom =
+      Atom(name: '_ServicesStoreBase.isLoading', context: context);
+
+  @override
+  bool get isLoading {
+    _$isLoadingAtom.reportRead();
+    return super.isLoading;
+  }
+
+  @override
+  set isLoading(bool value) {
+    _$isLoadingAtom.reportWrite(value, super.isLoading, () {
+      super.isLoading = value;
+    });
+  }
+
   late final _$getServicesAsyncAction =
       AsyncAction('_ServicesStoreBase.getServices', context: context);
 
@@ -35,6 +51,17 @@ mixin _$ServicesStore on _ServicesStoreBase, Store {
 
   late final _$_ServicesStoreBaseActionController =
       ActionController(name: '_ServicesStoreBase', context: context);
+
+  @override
+  void setLoading(bool value) {
+    final _$actionInfo = _$_ServicesStoreBaseActionController.startAction(
+        name: '_ServicesStoreBase.setLoading');
+    try {
+      return super.setLoading(value);
+    } finally {
+      _$_ServicesStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void addService(ServicoModel service) {
@@ -83,7 +110,8 @@ mixin _$ServicesStore on _ServicesStoreBase, Store {
   @override
   String toString() {
     return '''
-services: ${services}
+services: ${services},
+isLoading: ${isLoading}
     ''';
   }
 }

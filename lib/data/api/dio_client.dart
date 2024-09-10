@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:esteticaautomotiva/models/ordem_model.dart';
 
 import '../../data/api/interceptors/dio_interceptor.dart';
 

@@ -1,13 +1,13 @@
 class ServicoModel {
-    String servicoId;
+    int servicoId;
     String nomeservico;
     String descriptionServico;
-    String ordemservicoId;
+    int ordemservicoId;
     String tempoRealizado;
-    String kmentrega;
+    int kmentrega;
     String tempoPrevisto;
-    String idOrdemServico;
-    String idfuncionario;
+    int idOrdemServico;
+    int idfuncionario;
     String nomefuncionario;
 
     ServicoModel({

@@ -1,7 +1,7 @@
 import 'package:mobx/mobx.dart';
 
-import '../../models/servico_model.dart';
 import '../../data/repositories/service_repository.dart';
+import '../../models/servico_model.dart';
 
 part 'services_store.g.dart';
 
@@ -12,6 +12,12 @@ abstract class _ServicesStoreBase with Store {
 
   @observable
   ObservableList<ServicoModel> services = ObservableList<ServicoModel>();
+
+  @observable
+  bool isLoading = false;
+
+  @action
+  void setLoading(bool value) => isLoading = value;
 
   @action
   void addService(ServicoModel service) {
@@ -35,10 +41,13 @@ abstract class _ServicesStoreBase with Store {
 
   @action
   Future getServices(String numeroOrdem) async {
+    setLoading(true);
     final response = await _serviceRepository.getServices(numeroOrdem);
 
-    response.map((service) {
-      return addService(ServicoModel.fromJson(service));
-    }).toList();
+    response
+        .map((service) => addService(ServicoModel.fromJson(service)))
+        .toList();
+
+    setLoading(false);
   }
 }

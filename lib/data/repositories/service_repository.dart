@@ -1,5 +1,4 @@
 import '../../data/api/dio_client.dart';
-import '../../models/servico_model.dart';
 
 class ServiceRepository {
   var _httpClient;
@@ -9,13 +8,10 @@ class ServiceRepository {
   }
 
   Future<List<dynamic>> getServices(String numeroOrdem) async {
-    final response = await _httpClient
-        .get('/ordem/pegarServicos/$numeroOrdem');
+    final response =
+        await _httpClient.get('/servicos/pegarServicos/$numeroOrdem');
     print(response);
-    final _services = (response as List).map((service) {
-      return ServicoModel.fromJson(service);
-    }).toList();
 
-    return _services;
+    return (response as List).toList();
   }
 }

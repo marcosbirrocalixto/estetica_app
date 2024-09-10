@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../widgets/custom_circular_progress_indicator.dart';
 import '../../models/ordem_model.dart';
 import 'widgets/OrdemCard.dart';
 import '../../data/repositories/ordem_repository.dart';
@@ -53,7 +54,7 @@ class _OrdemPageState extends State<OrdemPage> {
         toolbarTextStyle: const TextStyle(color: Colors.white),
       ),
       body: isLoading
-          ? CircularProgressIndicator()
+          ? CustomCircularProgressIndicator(width: 50, height: 50, textLabel: 'Carrehando as Ordens de serviços...',)
           : Column(
               children: [
                 _buildFiltros(context),

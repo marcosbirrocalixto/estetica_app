@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobx/mobx.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
+import '../../widgets/custom_circular_progress_indicator.dart';
 import '../../models/servico_model.dart';
 import '../../models/ordem_model.dart';
 import '../../pages/servicos/widgets/ServicoCard.dart';
@@ -62,7 +62,19 @@ class _ServicosPageState extends State<ServicosPage> {
       body: Column(
         children: [
           _buildFiltros(context),
-          _buildServicos(context),
+          Observer(
+            builder: (context) {
+              return storeServices.isLoading
+                  ? CustomCircularProgressIndicator(width: 50, height: 50, textLabel: 'Carregando os Serviços...')
+                  : storeServices.services.length == 0
+                      ? Center(
+                          child: Text(
+                          'Nenhum Servço cadastrado!!!',
+                          style: TextStyle(color: Colors.black),
+                        ))
+                      : _buildServicos();
+            },
+          ),
         ],
       ),
       bottomNavigationBar: BotoomNavigator(1),
@@ -106,29 +118,27 @@ class _ServicosPageState extends State<ServicosPage> {
         ));
   }
 
-  Widget _buildServicos(context) {
+  Widget _buildServicos() {
     return Container(
       height: (MediaQuery.of(context).size.height - 200),
       width: MediaQuery.of(context).size.width,
       //color: Colors.black,
-      child: Observer(
-        builder: (context) => ListView.builder(
+      child: ListView.builder(
         itemCount: storeServices.services.length,
         itemBuilder: (context, index) {
           final ServicoModel servico = storeServices.services[index];
           return ServicoCard(
-              servicoId: servico.servicoId,
+              servicoId: servico.servicoId.toString(),
               nomeservico: servico.nomeservico,
               descriptionServico: servico.descriptionServico,
-              ordemservicoId: servico.ordemservicoId,
+              ordemservicoId: servico.ordemservicoId.toString(),
               tempoRealizado: servico.tempoRealizado,
-              kmentrega: servico.kmentrega,
+              kmentrega: servico.kmentrega.toString(),
               tempoPrevisto: servico.tempoPrevisto,
-              idOrdemServico: servico.idOrdemServico,
-              idfuncionario: servico.idfuncionario,
+              idOrdemServico: servico.idOrdemServico.toString(),
+              idfuncionario: servico.idfuncionario.toString(),
               nomefuncionario: servico.nomefuncionario);
         },
-      )
       ),
     );
   }
