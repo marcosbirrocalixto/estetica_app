@@ -1,19 +1,14 @@
+import 'package:esteticaautomotiva/models/ordem_model.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
 
 class OrdemCard extends StatelessWidget {
-  final String numeroOrdem;
-  final String dataEntrada;
-  final String dataProgramada;
-  final String observacao;
+  final OrdemModel ordem;
 
   OrdemCard({
     super.key,
-    this.numeroOrdem = '',
-    this.dataEntrada = '',
-    this.dataProgramada = '',
-    this.observacao = '',
+    required this.ordem,
   });
 
   @override
@@ -21,14 +16,14 @@ class OrdemCard extends StatelessWidget {
     Intl.defaultLocale = 'pt_Br';
     return GestureDetector(
       onTap: () {
-        print("OS: $numeroOrdem");
+        print("OS: " + ordem.numeroOrdem);
         /*
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
                 builder: (context) => ServicosPage(placa: "$idOrdemServico")),
                 (Route<dynamic> route) => false);
         */
-        Navigator.pushNamed(context, '/servico', arguments: numeroOrdem);
+        Navigator.pushNamed(context, '/servico', arguments: ordem);
         //Navigator.of(context).pushReplacementNamed('/servicos', arguments: idOrdemServico);
       },
       child: Container(
@@ -62,12 +57,11 @@ class OrdemCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Padding(padding: EdgeInsets.only(left: 7)),
-                      Text("Ordem de serviço: $numeroOrdem",
+                      Text("Ordem de serviço: " + ordem.numeroOrdem,
                           style: const TextStyle(
                               color: Colors.black,
-                       
-                          fontWeight: FontWeight.bold)),
-                          /*
+                              fontWeight: FontWeight.bold)),
+                      /*
                       Text("Placa: $placa",
                           style: const TextStyle(
                               color: Color.fromARGB(197, 0, 0, 0))),
@@ -76,16 +70,16 @@ class OrdemCard extends StatelessWidget {
                       Text("Cliente: $nome",
                           style: const TextStyle(color: Colors.black)),
                       */
-                      Text("Data entrada: $dataEntrada",
+                      Text("Data entrada: " + ordem.dataEntrada,
                           style: const TextStyle(color: Colors.black)),
-                      Text("Data programada: $dataProgramada",
+                      Text("Data programada: " + ordem.dataProgramada,
                           style: const TextStyle(color: Colors.black)),
                       Container(
                         height: 40,
                         width: 320,
                         child: Text(
                             overflow: TextOverflow.clip,
-                            "Observação:  $observacao",
+                            "Observação:  " + ordem.observacao,
                             maxLines: 2,
                             style: const TextStyle(
                               color: Colors.black,

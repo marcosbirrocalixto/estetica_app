@@ -145,7 +145,7 @@ class _LoginPageState extends State<LoginPage> {
         return null;
       },
       onSaved: (placa) {
-        print(placa);
+        //print(placa);
         //Navigator.pushReplacementNamed(context, '/ordem', arguments: placa);
         Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>OrdemPage(placa: placa ?? '')),(Route<dynamic> route) => false);
       },

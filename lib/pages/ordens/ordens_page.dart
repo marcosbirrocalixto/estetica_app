@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:esteticaautomotiva/data/api/dio_client.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/ordem_model.dart';
@@ -114,13 +111,14 @@ class _OrdemPageState extends State<OrdemPage> {
         itemBuilder: (context, index) {
           final OrdemModel ordem = _ordens[index];
           return OrdemCard(
-            numeroOrdem: ordem.numeroOrdem,
-            dataEntrada: ordem.dataEntrada,
-            dataProgramada: ordem.dataProgramada,
+            ordem: ordem,
+            //numeroOrdem: ordem.numeroOrdem,
+            //dataEntrada: ordem.dataEntrada,
+            //dataProgramada: ordem.dataProgramada,
             // placa: ordem.placa,
             //marca: ordem.marca,
             //nome: ordem.nome,
-            observacao: ordem.observacao,
+            //observacao: ordem.observacao,
             //stars: ordem.stars,
             //comment: ordem.comment,
           );
