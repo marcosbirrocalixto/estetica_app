@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../widgets/custom_circular_progress_indicator.dart';
+import '../../models/filtro_model.dart';
 import '../../models/servico_model.dart';
+import '../../widgets/filtros.dart';
 import '../../models/ordem_model.dart';
 import '../../pages/servicos/widgets/ServicoCard.dart';
 import '../../stores/services_store.dart';
@@ -17,9 +19,14 @@ class ServicosPage extends StatefulWidget {
 
 class _ServicosPageState extends State<ServicosPage> {
   late OrdemModel _ordem;
+  String filtro = '';
   ServicesStore storeServices = ServicesStore();
 
-  final _filtros = ['Em execução', 'Finalizados', 'Todos'];
+  List<FiltroModel> _filtros = [
+    FiltroModel(description: 'Abertos'),
+    FiltroModel(description: 'Todos'),
+    FiltroModel(description: 'Fechados'),
+  ];
 
   @override
   void initState() {
@@ -37,7 +44,7 @@ class _ServicosPageState extends State<ServicosPage> {
     RouteSettings settings = ModalRoute.of(context)!.settings;
     _ordem = settings.arguments as OrdemModel;
 
-    storeServices.getServices(_ordem.numeroOrdem);
+      storeServices.getServices(_ordem.numeroOrdem);
   }
 
   bool isLoading = false;
@@ -55,17 +62,20 @@ class _ServicosPageState extends State<ServicosPage> {
         centerTitle: true,
         titleTextStyle: const TextStyle(
             color: Color.fromARGB(255, 250, 250, 251),
-            fontSize: 30,
+            fontSize: 20,
             fontWeight: FontWeight.bold),
         toolbarTextStyle: const TextStyle(color: Colors.white),
       ),
       body: Column(
         children: [
-          _buildFiltros(context),
+          FiltrosWidget(_filtros),
           Observer(
             builder: (context) {
               return storeServices.isLoading
-                  ? CustomCircularProgressIndicator(width: 50, height: 50, textLabel: 'Carregando os Serviços...')
+                  ? CustomCircularProgressIndicator(
+                      width: 50,
+                      height: 50,
+                      textLabel: 'Carregando os Serviços...')
                   : storeServices.services.length == 0
                       ? Center(
                           child: Text(
@@ -79,43 +89,6 @@ class _ServicosPageState extends State<ServicosPage> {
       ),
       bottomNavigationBar: BotoomNavigator(1),
     );
-  }
-
-  Widget _buildFiltros(context) {
-    return Container(
-        padding: EdgeInsets.only(top: 1),
-        height: 50,
-        child: Center(
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: _filtros.length,
-            itemBuilder: (context, index) {
-              final filtro = _filtros[index];
-              return _buildFiltro(filtro);
-            },
-          ),
-        ));
-  }
-
-  Widget _buildFiltro(filtro) {
-    return Container(
-        padding: EdgeInsets.only(top: 2, bottom: 2, left: 20, right: 20),
-        margin: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            border: Border.all(
-                color: filtro == 'Abertas' ? Colors.red : Colors.grey)),
-        child: Center(
-          child: Text(
-            filtro,
-            style: TextStyle(
-                color: filtro == 'Abertas'
-                    ? Colors.red
-                    : Color.fromARGB(255, 14, 14, 75),
-                fontSize: 16,
-                fontWeight: FontWeight.bold),
-          ),
-        ));
   }
 
   Widget _buildServicos() {

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_mobx/flutter_mobx.dart';
 import '../../widgets/custom_circular_progress_indicator.dart';
+
+import '../../widgets/filtros.dart';
 import '../../models/ordem_model.dart';
 import 'widgets/OrdemCard.dart';
 import '../../data/repositories/ordem_repository.dart';
+import '../../stores/filtros_store.dart';
 import '../../widgets/botoom_navigator.dart';
 
 class OrdemPage extends StatefulWidget {
@@ -17,9 +20,8 @@ class OrdemPage extends StatefulWidget {
 class _OrdemPageState extends State<OrdemPage> {
   late dynamic placa = '';
 
-  final _filtros = ['Abertas', 'Fechadas', 'Todas'];
-
   List<OrdemModel> _ordens = [];
+  FiltrosStore storeFiltros = FiltrosStore();
 
   bool isLoading = false;
 
@@ -30,6 +32,7 @@ class _OrdemPageState extends State<OrdemPage> {
     super.initState();
     //initializeDateFormatting('pt_BR', DateFormat.DAY);
 
+    storeFiltros.getFiltros();
     getOrdens(placa.toString());
   }
 
@@ -54,52 +57,29 @@ class _OrdemPageState extends State<OrdemPage> {
         toolbarTextStyle: const TextStyle(color: Colors.white),
       ),
       body: isLoading
-          ? CustomCircularProgressIndicator(width: 50, height: 50, textLabel: 'Carrehando as Ordens de serviços...',)
+          ? CustomCircularProgressIndicator(
+              width: 50,
+              height: 50,
+              textLabel: 'Carregando as Ordens de serviços...',
+            )
           : Column(
               children: [
-                _buildFiltros(context),
+                Observer(
+                  builder: (context) {
+                    return storeFiltros.isLoading
+                        ? CustomCircularProgressIndicator(
+                            width: 50,
+                            height: 50,
+                            textLabel: 'Carregando os filtros...',
+                          )
+                        : FiltrosWidget(storeFiltros.filtros);
+                  },
+                ),
                 _buildOrdens(context),
               ],
             ),
       bottomNavigationBar: BotoomNavigator(1),
     );
-  }
-
-  Widget _buildFiltros(context) {
-    return Container(
-        padding: EdgeInsets.only(top: 1),
-        height: 50,
-        child: Center(
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: _filtros.length,
-            itemBuilder: (context, index) {
-              final filtro = _filtros[index];
-              return _buildFiltro(filtro);
-            },
-          ),
-        ));
-  }
-
-  Widget _buildFiltro(filtro) {
-    return Container(
-        padding: EdgeInsets.only(top: 2, bottom: 2, left: 20, right: 20),
-        margin: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            border: Border.all(
-                color: filtro == 'Abertas' ? Colors.red : Colors.grey)),
-        child: Center(
-          child: Text(
-            filtro,
-            style: TextStyle(
-                color: filtro == 'Abertas'
-                    ? Colors.red
-                    : Color.fromARGB(255, 14, 14, 75),
-                fontSize: 16,
-                fontWeight: FontWeight.bold),
-          ),
-        ));
   }
 
   Widget _buildOrdens(context) {
@@ -113,16 +93,9 @@ class _OrdemPageState extends State<OrdemPage> {
           final OrdemModel ordem = _ordens[index];
           return OrdemCard(
             ordem: ordem,
-            //numeroOrdem: ordem.numeroOrdem,
-            //dataEntrada: ordem.dataEntrada,
-            //dataProgramada: ordem.dataProgramada,
-            // placa: ordem.placa,
-            //marca: ordem.marca,
-            //nome: ordem.nome,
-            //observacao: ordem.observacao,
-            //stars: ordem.stars,
-            //comment: ordem.comment,
+            
           );
+          
         },
       ),
     );
@@ -131,8 +104,6 @@ class _OrdemPageState extends State<OrdemPage> {
   void getOrdens(placa) async {
     setState(() => isLoading = true);
     print("vai entrar getordens $placa");
-
-    //final ordens = await DioClient().get('/ordem/pegarOrdens/$placa');
 
     final ordens = await OrdemRepository().getOrdens(placa);
 

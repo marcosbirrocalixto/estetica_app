@@ -36,7 +36,7 @@ class ServicoCard extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(color: const Color.fromARGB(255, 170, 165, 165)),
           borderRadius: const BorderRadius.all(Radius.circular(5)),
-          color: const Color.fromARGB(238, 242, 243, 240),
+          color: const Color.fromARGB(255, 250, 250, 250),
         ),
         child: Padding(
           padding: const EdgeInsets.all(4),

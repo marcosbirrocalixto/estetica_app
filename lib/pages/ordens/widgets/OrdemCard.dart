@@ -1,7 +1,8 @@
-import 'package:esteticaautomotiva/models/ordem_model.dart';
 import 'package:flutter/material.dart';
-//import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
+
+import '../../../models/ordem_model.dart';
 
 class OrdemCard extends StatelessWidget {
   final OrdemModel ordem;
@@ -36,7 +37,7 @@ class OrdemCard extends StatelessWidget {
               border:
                   Border.all(color: const Color.fromARGB(255, 136, 135, 135)),
               borderRadius: const BorderRadius.all(Radius.circular(5)),
-              color: const Color.fromARGB(237, 253, 253, 252),
+              color: const Color.fromARGB(255, 250, 250, 250),
             ),
             child: Padding(
               padding: const EdgeInsets.all(4),
@@ -50,8 +51,6 @@ class OrdemCard extends StatelessWidget {
                       child: Image.asset('assets/icon/logo.ico'),
                     ),
                   ),
-                  //VerticalDivider(color: Color.fromARGB(255, 204, 204, 206)),
-                  //Expanded(child:
                   const Padding(padding: EdgeInsets.only(left: 10)),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,16 +59,15 @@ class OrdemCard extends StatelessWidget {
                       Text("Ordem de serviço: " + ordem.numeroOrdem,
                           style: const TextStyle(
                               color: Colors.black,
+                              fontSize: 16,
                               fontWeight: FontWeight.bold)),
-                      /*
-                      Text("Placa: $placa",
+                      Text("Placa: " + ordem.veiculo.placa,
                           style: const TextStyle(
                               color: Color.fromARGB(197, 0, 0, 0))),
-                      Text("Veículo: $marca",
+                      Text("Veículo: " + ordem.veiculo.marca,
                           style: const TextStyle(color: Colors.black)),
-                      Text("Cliente: $nome",
+                      Text("Cliente: " + ordem.cliente.name,
                           style: const TextStyle(color: Colors.black)),
-                      */
                       Text("Data entrada: " + ordem.dataEntrada,
                           style: const TextStyle(color: Colors.black)),
                       Text("Data programada: " + ordem.dataProgramada,
@@ -85,53 +83,21 @@ class OrdemCard extends StatelessWidget {
                               color: Colors.black,
                             )),
                       ),
-                      //Container(height: 5),
-                      /*
-                      if (stars != 0)
-                        Text(
-                          'Avaliação:',
-                          style: TextStyle(
-                            color: Colors.black,
+                      Container(
+                        height: 20,
+                        width: 200,
+                        child: Text(
+                            overflow: TextOverflow.clip,
+                            "Avaliação:  ",
+                            style: const TextStyle(
+                              color: Colors.black,
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      if (stars != 0)
-                        Container(
-                          child: RatingBar.builder(
-                            initialRating: stars.toDouble(),
-                            minRating: 1,
-                            direction: Axis.horizontal,
-                            allowHalfRating: true,
-                            itemCount: 5,
-                            itemSize: 30,
-                            itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
-                            itemBuilder: (context, _) => Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                            ),
-                            onRatingUpdate: (rating) {
-                              null;
-                            },
-                          ),
-                        ),
-                      if (stars != 0)
-                        Container(
-                          child: Text(
-                            comment,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      if (stars == 0)
-                        Container(
-                          child: _placaButton(context),
-                        )
-                      */
+                            )),
+                      ),
+                      _buildEvaluationOrdem(context),
                     ],
+                   
                   ),
                 ],
               ),
@@ -142,7 +108,25 @@ class OrdemCard extends StatelessWidget {
     );
   }
 
-  Widget _placaButton(context) {
+  Widget _buildEvaluationOrdem(context) {
+    return RatingBar.builder(
+      initialRating: 3,
+      minRating: 1,
+      direction: Axis.horizontal,
+      allowHalfRating: false,
+      itemCount: 5,
+      itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
+      itemBuilder: (context, _) => Icon(
+        Icons.star,
+        color: Colors.amber,
+      ),
+      onRatingUpdate: (rating) {
+        print(rating);
+      },
+    );
+  }
+
+  Widget _evaluationButton(context) {
     double deviceWidth = (MediaQuery.of(context).size.width - 200);
     return SizedBox(
       width: deviceWidth,
